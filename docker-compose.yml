@@ -1,0 +1,13 @@
+
+name : postman-clone
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=Tonystark333
+     - POSTGRES_DB=db2
+    ports:
+      - 5432:5432
+
