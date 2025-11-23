@@ -1,19 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { currentUser } from "@/module/authentication/actions";
+import UserButton from "@/module/authentication/components/user-button";
 
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
   return (
    <div className="flex flex-col items-center justify-center h-screen">
-    <Button>
-      Hello1
-    </Button>
-    <Button>
-      Hello2
-    </Button>
-    <Button>
-      Hello3
-    </Button>
-
+    <UserButton user={user}/>
    </div>
   );
 }
