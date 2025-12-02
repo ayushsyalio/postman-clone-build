@@ -1,0 +1,61 @@
+'use client'
+
+import React, { useState } from "react";
+import { useEditCollection } from "../hooks/collection";
+import { toast } from "sonner";
+import Modal from "@/components/ui/modal";
+
+const EditCollection = ({
+  isModalOpen,
+  setIsModalOpen,
+  collectionId,
+  initialName,
+}: {
+  isModalOpen: boolean;
+  setIsModalOpen: (open: boolean) => void;
+  collectionId: string;
+  initialName: string;
+}) => {
+    const [name, setName] = useState(initialName)
+    const {mutateAsync, isPending} = useEditCollection(collectionId, name);
+
+    const handleSubmit = async ()=>{
+        if(!name.trim()) return;
+
+        try {
+            await mutateAsync();
+            toast.success("Collection Updated successfully")
+            setIsModalOpen(false)
+        } catch (error) {
+            console.error("Failed to update collection")
+            console.error("Failed to update collection", error)
+            
+        }
+    }
+
+
+  return (
+    <Modal
+    title="Edit Collection"
+    description="Rename your collection"
+    isOpen={isModalOpen}
+    onClose={()=>setIsModalOpen(false)}
+    onSubmit={handleSubmit}
+    submitText={isPending ? "Saving.." :"Save changes"}
+    submitVariant="default"
+    >
+        <div className="space-y-4">
+            <input
+            className="w-full p-2 border rounded"
+            placeholder="Collection name"
+            value={name}
+            onChange={(e)=>setName(e.target.value)}
+            />
+
+        </div>
+
+    </Modal>
+  )
+};
+
+export default EditCollection;
