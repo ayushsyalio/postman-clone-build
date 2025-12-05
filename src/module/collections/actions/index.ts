@@ -44,3 +44,5 @@ export const editCollections = async(collectionId:string, name:string)=>{
     })
 
 }
+
+

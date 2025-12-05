@@ -12,7 +12,7 @@ interface Props{
 
 const CreateCollection = ({workspaceId, isModalOpen, setIsModalOpen}:Props) => {
     const [name, setName] = useState("")
-    const {mutateAsync, isPending} = useCreateCollections(workspaceId)
+    const {mutateAsync, isPending} = useCreateCollections(workspaceId, name)
 
     const handleSubmit = async ()=>{
         if(!name.trim) return;

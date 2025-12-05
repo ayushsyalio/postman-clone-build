@@ -8,11 +8,11 @@ export function useCollections(workspaceId:string){
     })
 }
 
-export function useCreateCollections(workspaceId:string){
+export function useCreateCollections(workspaceId:string, name:string){
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn:async(name:string)=>createCollection(workspaceId, name),
+        mutationFn:async (name:string)=>createCollection(workspaceId, name),
         onSuccess:()=>{
             queryClient.invalidateQueries({queryKey:["collections", workspaceId]})
         }
