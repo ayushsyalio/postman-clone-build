@@ -29,6 +29,7 @@ import { REST_METHOD } from "@prisma/client";
 import { isErrored } from "stream";
 import { cn } from "@/lib/utils";
 import DeleteRequest from "@/module/request/components/delete-request";
+import { useRequestPlaygroundStore } from "@/module/request/store/useRequestStore";
 
 interface Props {
   collection: {
@@ -57,6 +58,8 @@ const CollectionFolder = ({ collection }: Props) => {
   const { data: requestData, isPending } = useGetAllRequestFromCollection(
     collection.id
   );
+
+  const {openRequestTab} = useRequestPlaygroundStore();
 
 
 
@@ -173,7 +176,7 @@ const CollectionFolder = ({ collection }: Props) => {
                 {requestData.map((request) => (
                   <div
                     key={request.id}
-                    // onClick={()=>openRequestTab(request)}
+                    onClick={()=>openRequestTab(request)}
 
                     className="flex items-center justify-center py-2 px-3 hover:bg-zinc-900/50 rounded-md cursor-pointer group transition-colors"
                   >

@@ -15,7 +15,9 @@ const SearchBar = () => {
   const [open, setOpen] = useState(false);
   useEffect(()=>{
     const down = (e:KeyboardEvent)=>{
-        if(e.key === "k" && (e.metaKey) || e.ctrlKey){
+      const isK = e.key.toLowerCase() === "k";
+      const isShortcut = e.metaKey || e.ctrlKey;
+        if(isK && isShortcut){
             e.preventDefault()
             setOpen((open)=> !open)
         }

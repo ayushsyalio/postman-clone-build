@@ -1,3 +1,5 @@
+import { MEMBER_ROLE } from "@prisma/client";
+
 export interface UserProps{
     id:string;
     name:string;
@@ -5,4 +7,25 @@ export interface UserProps{
     email:string;
     createdAt:Date;
     updatedAt:Date;
+}
+
+export interface MemberProps{
+    id:string;
+    role:MEMBER_ROLE;
+    userId:string;
+    workspaceId:string;
+    createdAt:string;
+    updatedAt:string;
+}
+
+export interface WorkspaceProps{
+    id:string;
+    name:string;
+    description:string | null;
+    ownerId:string;
+    createdAt:string;
+    updatedAt:string;
+    members:MemberProps[];
+
+
 }

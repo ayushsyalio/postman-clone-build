@@ -10,6 +10,7 @@ import { useWorkspaceStore } from "@/module/layout/store";
 import { useGetworkspace } from "@/module/workspace/hooks/workspace";
 
 import { Loader } from "lucide-react";
+import PlaygroundPage from "@/module/request/components/request-playground";
 
 const Page = () => {
   const { selectedWorkspace } = useWorkspaceStore();
@@ -26,7 +27,9 @@ const Page = () => {
 return (
   <ResizablePanelGroup direction="horizontal">
     <ResizablePanel defaultSize={65} minSize={40}>
-       Request playground
+      <PlaygroundPage>
+        
+      </PlaygroundPage>
     </ResizablePanel>
 
     <ResizableHandle withHandle />
