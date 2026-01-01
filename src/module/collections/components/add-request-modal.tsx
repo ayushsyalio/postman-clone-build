@@ -12,18 +12,6 @@ import { useCollections } from "../hooks/collection";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-interface Props {
-  isModalOpen: boolean;
-  setIsModalOpen: (open: boolean) => void;
-  requestData?: {
-    name: string;
-    method: REST_METHOD;
-    url: string;
-  };
-  initialName?: string;
-  collectionId?: string;
-}
-
 const SaveRequestToCollectionModal = ({
   isModalOpen,
   setIsModalOpen,
@@ -34,7 +22,17 @@ const SaveRequestToCollectionModal = ({
   },
   initialName = "Untitled",
   collectionId,
-}: Props) => {
+}: {
+  isModalOpen:boolean;
+  setIsModalOpen:(open:boolean)=>void;
+  requestData?:{
+    name:string;
+    url:string;
+    method:REST_METHOD;
+  }
+  initialName?:string;
+  collectionId?:string;
+}) => {
   const [requestName, setRequestName] = useState(initialName);
   const [selectedCollectionId, setSelectedCollectionId] = useState<string>(
     collectionId || ""
@@ -46,7 +44,7 @@ const SaveRequestToCollectionModal = ({
     data: collections,
     isLoading,
     isError,
-  } = useCollections(selectedWorkspace?.id || "");
+  } = useCollections(selectedWorkspace?.id!);
   const { mutateAsync, isPending } =
     useAddRequestToCollection(selectedCollectionId);
 
@@ -75,12 +73,12 @@ const SaveRequestToCollectionModal = ({
     [REST_METHOD.PATCH]: "text-orange-500",
   };
   const filteredCollections =
-    collections?.filter((collection) =>
+    collections?.filter(collection =>
       collection.name.toLowerCase().includes(searchTerm.toLowerCase())
-    ) || [];
+   ) || [];
 
   const selectedCollection = collections?.find(
-    (c) => c.id === selectedCollectionId
+    c=> c.id === selectedCollectionId
   );
 
   const handleSubmit = async () => {
@@ -116,6 +114,7 @@ const SaveRequestToCollectionModal = ({
       onSubmit={handleSubmit}
       submitText={isPending ? "Saving..." : "Save"}
       submitVariant="default"
+      
       className="bg-zinc-900 border-zinc-800"
     >
       <div className="space-y-4">
