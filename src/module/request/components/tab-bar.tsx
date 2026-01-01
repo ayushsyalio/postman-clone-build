@@ -1,10 +1,13 @@
+'use client'
+
 import React, { useState } from 'react'
 import { useRequestPlaygroundStore } from '../store/useRequestStore'
 import { X } from 'lucide-react';
+import AddnameModal from './addname-modal';
 
 const TabBar = () => {
     const {tabs, activeTabId, setActiveTabId, addTab, closeTab} = useRequestPlaygroundStore()
-    const [renameTabId, setRenameTabId] = useState(false);
+    const [renameModalOpen, setRenameModalOpen] = useState(false);
     const [selectedTabId, setSelectedTabId] = useState<string | null>(null);
 
     const requestColorMap:Record<string, string> = {
@@ -14,7 +17,10 @@ const TabBar = () => {
         DELETE:"text-red-500",
     }
 
-    const onDoubleClickTab = (id:string)=>{}
+    const onDoubleClickTab = (tabId:string)=>{
+        setSelectedTabId(tabId)
+        setRenameModalOpen(true)
+    }
     
     return (
     <>
@@ -57,6 +63,15 @@ const TabBar = () => {
         </button>
 
     </div>
+    {
+        selectedTabId && (
+            <AddnameModal
+            isModalOpen={renameModalOpen}
+            setIsModalOpen={setRenameModalOpen}
+            tabId={selectedTabId}
+            />
+        )
+    }
     </>
   )
 }

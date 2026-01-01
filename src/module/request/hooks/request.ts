@@ -2,15 +2,18 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addRequestToCollection, type Request, getAllRequestfromCollections, saveRequest, deleteRequest } from "../actions";
+import { useRequestPlaygroundStore } from "../store/useRequestStore";
 
 export function useAddRequestToCollection(collectionId:string){
+    const {updateTabfromSavedRequest, activeTabId } = useRequestPlaygroundStore();
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn:async (value:Request)=>addRequestToCollection(collectionId, value),
         onSuccess:(data)=>{
             queryClient.invalidateQueries({queryKey:['requests', collectionId]})
-            console.log(data)
+            //@ts-expect-error
+            updateTabfromSavedRequest(activeTabId!, data)
         }
     })
 }
@@ -24,13 +27,15 @@ export function useGetAllRequestFromCollection(collectionId:string){
 }
 
 export function useSaveRequest(id:string){
+    const {updateTabfromSavedRequest, activeTabId } = useRequestPlaygroundStore();
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn:async(value:Request)=>saveRequest(id, value),
         onSuccess:(data)=>{
             queryClient.invalidateQueries({queryKey:["requests"]})
-            console.log(data)
+            //@ts-expect-error
+            updateTabfromSavedRequest(activeTabId!, data)
         }
     })
 }
