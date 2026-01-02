@@ -1,7 +1,7 @@
 'use client'
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addRequestToCollection, type Request, getAllRequestfromCollections, saveRequest, deleteRequest } from "../actions";
+import { addRequestToCollection, type Request, getAllRequestfromCollections, saveRequest, deleteRequest, run } from "../actions";
 import { useRequestPlaygroundStore } from "../store/useRequestStore";
 
 export function useAddRequestToCollection(collectionId:string){
@@ -48,6 +48,20 @@ export function useDeleteReqfromCollection(requestId:string){
             queryClient.invalidateQueries({queryKey:["requests"]})
             console.log(data)
 
+        }
+    })
+}
+
+export function useRunRequest(requestId:string){
+    const queryClient = useQueryClient();
+    const {setResponseViewerData} = useRequestPlaygroundStore();
+    
+    return useMutation({
+        mutationFn:async()=>await run(requestId),
+        onSuccess:(data)=>{
+            queryClient.invalidateQueries({queryKey:['requests']});
+            // @ts-ignore 
+            setResponseViewerData(data);
         }
     })
 }
