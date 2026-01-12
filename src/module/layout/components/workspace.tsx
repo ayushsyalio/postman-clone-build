@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/ui/hint";
 import { useWorkspaces } from "@/module/workspace/hooks/workspace";
-import { Loader, Plus, User } from "lucide-react";
+import { Delete, Loader, Plus, User } from "lucide-react";
 import { useWorkspaceStore } from "../store";
 import { useEffect, useState } from "react";
 import {
@@ -19,7 +19,7 @@ import CreateWorkspace from "./createWorkspace";
 const Workspace = () => {
   const { data: workspaces, isLoading } = useWorkspaces();
   const { selectedWorkspace, setSelectedWorkspace } = useWorkspaceStore();
-  const [isModalopen, setIsmodalOpen] = useState(false)
+  const [isModalopen, setIsmodalOpen] = useState(false);
 
   useEffect(() => {
     if (workspaces && workspaces.length > 0 && !selectedWorkspace) {
@@ -49,6 +49,7 @@ const Workspace = () => {
         >
           <SelectTrigger className="border border-indigo-400 bg-indigo-400/10 hover:bg-indigo-400/20 text-indigo-400 hover:text-indigo-300 flex flex-row items-center space-x-1">
             <User className="size-4 text-indigo-400" />
+
             <span className="text-sm text-indigo-400 font-semibold">
               <SelectValue placeholder="select workspace" />
             </span>
@@ -58,22 +59,30 @@ const Workspace = () => {
             {workspaces.map((ws) => (
               <SelectItem key={ws.id} value={ws.id}>
                 {ws.name}
+                
               </SelectItem>
             ))}
-            <Separator className="my-1 "/>
+            <Separator className="my-1 " />
             <div className="p-2 flex flex-row justify-between items-center">
-              <span className="font-semibold text-zinc-600">My workspaces
-                <Button size="sm" variant={"outline"} onClick={()=>setIsmodalOpen(true)} className="m-2">
+              <span className="font-semibold text-zinc-600">
+                My workspaces
+                <Button
+                  size="sm"
+                  variant={"outline"}
+                  onClick={() => setIsmodalOpen(true)}
+                  className="m-2"
+                >
                   <Plus size={16} className="text-indigo-400" />
-
                 </Button>
               </span>
-
             </div>
           </SelectContent>
         </Select>
       </Hint>
-      <CreateWorkspace isModalOpen = {isModalopen} setIsModalOpen={setIsmodalOpen}/>
+      <CreateWorkspace
+        isModalOpen={isModalopen}
+        setIsModalOpen={setIsmodalOpen}
+      />
     </>
   );
 };

@@ -1,0 +1,19 @@
+import { currentUser } from "@/module/authentication/actions";
+import { acceptWorkspaceInvite } from "@/module/invites/actions";
+import { redirect } from "next/navigation";
+
+const Invite = async ({params}:{params:Promise<{token:string}>}) =>{
+    const {token} = await params;
+    const user = await currentUser();
+    if(!user){
+        redirect('/sign-in')
+    }
+    const invite = await acceptWorkspaceInvite(token);
+
+    if(invite.success){
+        redirect('/')
+
+    }
+    return redirect('/sign-in')
+}
+export default Invite;
