@@ -1,7 +1,9 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
 import { useCreateworkspace } from "@/module/workspace/hooks/workspace";
+import { Delete } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -46,7 +48,9 @@ const CreateWorkspace = ({
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
+        
       </div>
+      
     </Modal>
   );
 };

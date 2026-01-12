@@ -10,6 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model test {
@@ -30,6 +31,7 @@ model User {
 
   workspaces Workspace[] @relation("Userworkspaces")
   memberships WorkspaceMember[]
+  workspaceInvites WorkSpaceInvite[]
 
   @@unique([email])
   @@map("user")
@@ -92,6 +94,7 @@ model Workspace{
   owner User @relation("Userworkspaces", fields:[ownerId], references:[id])
 
   members WorkspaceMember[]
+  invites WorkSpaceInvite[]
   collections Collection[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -106,6 +109,20 @@ enum MEMBER_ROLE {
   VIEWER
 
 
+}
+
+model WorkSpaceInvite{
+  id String
+  workspaceId String
+  token String @unique
+  expiresAt DateTime?
+  createdById String
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  createdBy User @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model WorkspaceMember {
